@@ -13,8 +13,6 @@ Housing buildings can also catch fire, in which case they can be saved by firefi
 <img src="screenshots/call_graph.png" width="70%" height="70%">
 
 
-Credits:  Gabriel M.R. , Quentin V.S., Elie S.
+Credits:  Roman Mallick , Jorys FOTSO, Rick Georges YELEUMEU, Alexandre DE OLIVEIRA NEIGE
 
 ---------
-Instructions to compile and run:
-You need to install and link allegro 4.2
