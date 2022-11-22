@@ -8,9 +8,7 @@ This management is based on <b>graph theory algorithms</b> such as finding the c
 The resources are shared between the different housing buildings by proximity to the resource facilities and with a goal to optimize the city (minimize the number of inhabitants lacking resources)
 Housing buildings can also catch fire, in which case they can be saved by firefighters, if there is a station close enough.
 
-<img src="screenshots/menu.png" width="60%" height="60%">
-<img src="screenshots/gameplay.png" width="60%" height="60%">
-<img src="screenshots/call_graph.png" width="70%" height="70%">
+
 
 
 Credits:  Roman Mallick , Jorys FOTSO, Rick Georges YELEUMEU, Alexandre DE OLIVEIRA NEIGE
