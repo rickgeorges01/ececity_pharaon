@@ -5,10 +5,11 @@ t_centrale* centrale_creer()
     t_centrale* nouv;
     nouv=malloc(sizeof(t_centrale));
 
+    ///Mettre infortmation dans un fichier texte
     nouv->capacite.capacite_disponible = CAPACITE_CENTRALE;
     nouv->capacite.capacite_max = CAPACITE_CENTRALE;
-    nouv->case_de_referenceX = 0;
-    nouv->case_de_referenceY = 0;
+    nouv->Pos_X = 0;
+    nouv->Pos_Y = 0;
     nouv->id_centrale.caseX = -1;
     nouv->id_centrale.caseX = -1;
     return nouv;
@@ -61,8 +62,8 @@ int centrale_depassement_matrice(int colonne,int ligne)
 void centrale_placer(t_centrale* centrale,int col,int lig,t_case*** kase)
 {
     int i,j;
-    centrale->case_de_referenceX=col;
-    centrale->case_de_referenceY=lig;
+    centrale->Pos_X=col;
+    centrale->Pos_Y=lig;
     centrale->id_centrale.caseX = col;
     centrale->id_centrale.caseY = lig;
     for(i=lig;i<lig+CENTRALE_H;i++)
@@ -78,11 +79,11 @@ void centrale_afficher(t_centrale* centrale,int niveau)
 {
     if(niveau==NIVEAU_EAU)
     {
-        draw_trans_sprite(graphs->buffer_ville,graphs->centrale,1+TAILLE_CASE*centrale->case_de_referenceX,1+TAILLE_CASE*centrale->case_de_referenceY);
+        draw_trans_sprite(graphs->buffer_ville,graphs->centrale,1+TAILLE_CASE*centrale->Pos_X,1+TAILLE_CASE*centrale->Pos_Y);
     }
     else
     {
-    draw_sprite(graphs->buffer_ville,graphs->centrale,1+TAILLE_CASE*centrale->case_de_referenceX,1+TAILLE_CASE*centrale->case_de_referenceY);
+        draw_sprite(graphs->buffer_ville,graphs->centrale,1+TAILLE_CASE*centrale->Pos_X,1+TAILLE_CASE*centrale->Pos_Y);
     }
 }
 
