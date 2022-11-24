@@ -5,10 +5,11 @@ t_chateau* chateau_creer()
     t_chateau* nouv;
     nouv=malloc(sizeof(t_chateau));
 
+    ///Mettre information dans un fichier texte
     nouv->capacite.capacite_disponible = CAPACITE_CHATEAU;
     nouv->capacite.capacite_max = CAPACITE_CHATEAU;
-    nouv->case_de_referenceX = 0;
-    nouv->case_de_referenceY = 0;
+    nouv->Pos_X = 0;
+    nouv->Pos_Y = 0;
     nouv->id_chateau.caseX = -1;
     nouv->id_chateau.caseY = -1;
 
@@ -59,8 +60,8 @@ int chateau_depassement_matrice(int colonne,int ligne)
 void chateau_placer(t_chateau* chateau,int col,int lig,t_case*** kase)
 {
     int i,j;
-    chateau->case_de_referenceX=col;
-    chateau->case_de_referenceY=lig;
+    chateau->Pos_X=col;
+    chateau->Pos_Y=lig;
     chateau->id_chateau.caseX = col;
     chateau->id_chateau.caseY = lig;
     for(i=col;i<col+CHATEAU_W;i++)
@@ -76,11 +77,11 @@ void chateau_afficher(t_chateau* chateau,int niveau)
 {
     if(niveau==NIVEAU_ELEC)
     {
-    draw_trans_sprite(graphs->buffer_ville,graphs->chateau,1+TAILLE_CASE*chateau->case_de_referenceX,1+TAILLE_CASE*chateau->case_de_referenceY);
+    draw_trans_sprite(graphs->buffer_ville,graphs->chateau,1+TAILLE_CASE*chateau->Pos_X,1+TAILLE_CASE*chateau->Pos_Y);
     }
     else
     {
-        draw_sprite(graphs->buffer_ville,graphs->chateau,1+TAILLE_CASE*chateau->case_de_referenceX,1+TAILLE_CASE*chateau->case_de_referenceY);
+        draw_sprite(graphs->buffer_ville,graphs->chateau,1+TAILLE_CASE*chateau->Pos_X,1+TAILLE_CASE*chateau->Pos_Y);
     }
 }
 
@@ -97,8 +98,8 @@ int chateau_distribuer(t_chateau* chateau,t_habitation* habitation)
     if(chateau->capacite.capacite_disponible>=quantitee)
     {
         //////////////////////////////////////////////////////////////// on cherche l'indice du 1er chateau fournisseur
-                                                                      // qui n'a pas encore distribué d'eau
-                                                                      // (on cherche à savoir s'il reste une place dans
+                                                                      // qui n'a pas encore distribuÃ© d'eau
+                                                                      // (on cherche Ã  savoir s'il reste une place dans
                                                                       // le tableau des fournisseurs)
         i=0;
         do
@@ -108,7 +109,7 @@ int chateau_distribuer(t_chateau* chateau,t_habitation* habitation)
             i++;
         }while(eau_distrib != 0 && i<FOURNISSEUR_MAX);
         ///////////////////////////////////////////////////////////////
-        if(eau_distrib == 0) // si on a trouvé une place dans le tableau des fournisseurs, on alimente. sinon non.
+        if(eau_distrib == 0) // si on a trouvÃ© une place dans le tableau des fournisseurs, on alimente. sinon non.
         {
             habitation->chateaux_fournisseurs[index].qte_eau_distribuee=quantitee;
             habitation->chateaux_fournisseurs[index].id_fournisseur.caseX =chateau->id_chateau.caseX;
@@ -116,7 +117,7 @@ int chateau_distribuer(t_chateau* chateau,t_habitation* habitation)
             chateau->capacite.capacite_disponible-=quantitee;
             habitation->eau=1;
         }
-        else // on n'a pas trouvé de place, on n'alimente pas, donc la quantité distribuée est nulle
+        else // on n'a pas trouvÃ© de place, on n'alimente pas, donc la quantitÃ© distribuÃ©e est nulle
         {
             quantitee=0;
         }
@@ -124,8 +125,8 @@ int chateau_distribuer(t_chateau* chateau,t_habitation* habitation)
     else if(chateau->capacite.capacite_disponible<quantitee)
     {
         //////////////////////////////////////////////////////////////// on cherche l'indice du 1er chateau fournisseur
-                                                                      // qui n'a pas encore distribué d'eau
-                                                                      // (on cherche à savoir s'il reste une place dans
+                                                                      // qui n'a pas encore distribuÃ© d'eau
+                                                                      // (on cherche Ã  savoir s'il reste une place dans
                                                                       // le tableau des fournisseurs)
         i=0;
         do
@@ -135,7 +136,7 @@ int chateau_distribuer(t_chateau* chateau,t_habitation* habitation)
             i++;
         }while(eau_distrib != 0 && i<FOURNISSEUR_MAX);
         ///////////////////////////////////////////////////////////////
-        if(eau_distrib == 0) // si on a trouvé une place dans le tableau des fournisseurs, on alimente. sinon non.
+        if(eau_distrib == 0) // si on a trouvÃ© une place dans le tableau des fournisseurs, on alimente. sinon non.
         {
             quantitee =chateau->capacite.capacite_disponible;
             chateau->capacite.capacite_disponible=0;
@@ -143,7 +144,7 @@ int chateau_distribuer(t_chateau* chateau,t_habitation* habitation)
             habitation->chateaux_fournisseurs[index].qte_eau_distribuee=quantitee;
             habitation->chateaux_fournisseurs[index].id_fournisseur=chateau->id_chateau;
         }
-        else // on n'a pas trouvé de place, on n'alimente pas, donc la quantité distribuée est nulle
+        else // on n'a pas trouvÃ© de place, on n'alimente pas, donc la quantitÃ© distribuÃ©e est nulle
         {
             quantitee = 0;
         }
@@ -155,3 +156,4 @@ int chateau_eau_disponible(t_chateau* chateau)
 {
     return chateau->capacite.capacite_disponible;
 }
+
