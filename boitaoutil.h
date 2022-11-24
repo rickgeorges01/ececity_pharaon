@@ -7,25 +7,24 @@
 #include "compalleg.h"
 #include "define.h"
 
-//gÈomÈtrie de la boite
+//g√©om√©trie de la boite
 
-#define COORDX 10
-#define COORDY 56
 #define LARGEUR_CASE 50
 #define TAILLE_BORDS 2
-#define NB_BOUTONS_H 10
-#define NB_BOUTONS_W 1
-//#define NB_BOUTONS 5
-#define COUL_BORD makecol(140,140,140)
+
+#define NB_BOUTONS_H 10 //Nombre de bouton
+#define NB_BOUTONS_W 1 // Colonne ou ce trouve les boutons
+//10 boutons sur la meme colone
+#define COUL_BORD makecol(140,140,140) //Permet d'avoir la couleurs des bords des icones et du fond
 #define COUL_FOND makecol(180,180,180)
 
 typedef struct boiteaoutils
 {
-    int x; //coordonnÈes d'affichage de la boite ‡ outils
-    int y; //coordonnÈes d'affichage de la boite ‡ outils
+    int x; //coordonn√©es d'affichage de la boite √† outils
+    int y; //coordonn√©es d'affichage de la boite √† outils
     int bouton_choisi;
-    int matbouton[NB_BOUTONS_H][NB_BOUTONS_W];
-    BITMAP *img_bouton_off[NB_BOUTONS_H][NB_BOUTONS_W];
+    int matbouton[NB_BOUTONS_H][NB_BOUTONS_W];//Matrice des boutons (l√† ou ils sont rang√©)
+    BITMAP *img_bouton_off[NB_BOUTONS_H][NB_BOUTONS_W];//Image du boutons On et OFF
     BITMAP *img_bouton_on[NB_BOUTONS_H][NB_BOUTONS_W];
 }t_boite_a_outils;
 
