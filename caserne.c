@@ -5,10 +5,11 @@ t_caserne* caserne_creer()
     t_caserne* nouv;
     nouv=malloc(sizeof(t_caserne));
 
+    ///Mettre les informations du fichier texte
     nouv->temps_de_rechargement=0;
-    nouv->occupe=0;
-    nouv->case_de_referenceX = 0;
-    nouv->case_de_referenceY = 0;
+    nouv->Travaille=0;
+    nouv->pos_X = 0;
+    nouv->pos_Y = 0;
 
     return nouv;
 }
@@ -52,8 +53,8 @@ int caserne_depassement_matrice(int colonne,int ligne)
 void caserne_placer(t_caserne* caserne,int x,int y,t_case*** kase)
 {
     int i,j;
-    caserne->case_de_referenceX=x;
-    caserne->case_de_referenceY=y;
+    caserne->pos_X=x;
+    caserne->pos_Y=y;
     for(i=x;i<x+CASERNE_W;i++)
     {
         for(j=y;j<y+CASERNE_H;j++)
@@ -67,7 +68,8 @@ void caserne_afficher(t_caserne* caserne,int niveau)
 {
     if(niveau==NIVEAU_SOL)
     {
-        draw_sprite(graphs->buffer_ville,graphs->caserne,1+TAILLE_CASE*caserne->case_de_referenceX,1+TAILLE_CASE*caserne->case_de_referenceY);
+        draw_sprite(graphs->buffer_ville,graphs->caserne,1+TAILLE_CASE*caserne->pos_X,1+TAILLE_CASE*caserne->pos_Y);
     }
-    draw_trans_sprite(graphs->buffer_ville,graphs->caserne,1+TAILLE_CASE*caserne->case_de_referenceX,1+TAILLE_CASE*caserne->case_de_referenceY);
+    draw_trans_sprite(graphs->buffer_ville,graphs->caserne,1+TAILLE_CASE*caserne->pos_X,1+TAILLE_CASE*caserne->pos_Y);
 }
+
