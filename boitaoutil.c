@@ -4,19 +4,22 @@
 t_boite_a_outils* boiteaoutils_creer()
 {
     int i,j,cpt=0;
-    //dÈclaration d'une instance boite ‡ outil
+    int Coordonne_X = 10;
+    int Coordonne_Y = 56;
+    //d√©claration d'une instance boite √† outil
     t_boite_a_outils* nouv;
-    //allocation mÈmoire pour cette instance
+    //allocation m√©moire pour cette instance
     nouv=(t_boite_a_outils*)malloc(1*sizeof(t_boite_a_outils));
     //On en profite pour remplir directement les champs de l'instance
-    //Car ils sont dÈfinis en DUR par le developeur
-    nouv->x=COORDX;
-    nouv->y=COORDY;
+    //Car ils sont d√©finis par nous
+    nouv->x=Coordonne_X;
+    nouv->y=Coordonne_Y;
 
-    nouv->bouton_choisi = -1;
+    nouv->bouton_choisi = -1; // Aucun boutons n'est choisit
+
     //On charge les images (outil%d.bmp)
-    boiteaoutils_chargerimages(nouv);
-    //on rempli la matrice MATACTION qui va dÈfinir
+    boiteaoutils_images(nouv);
+    //on rempli la matrice MATACTION qui va d√©finir
     //le comportement de l'utilisateur dans le jeu
     for(i=0;i<NB_BOUTONS_H;i++)
     {
@@ -33,28 +36,28 @@ void boiteaoutils_reinitialiser_boutons_uniques(t_boite_a_outils* boiteaoutils)
 {
     switch(boiteaoutils->bouton_choisi)
     {
-    case BOUTON_PAUSE:
-    case BOUTON_SAUVEGARDER:
-        boiteaoutils->bouton_choisi = -1;
+    case BOUTON_PAUSE: //Bouton choisit est le bouton pause
+    case BOUTON_SAUVEGARDER: // Bouton choisit est le bouton sauvegarde
+        boiteaoutils->bouton_choisi = -1; /// Sauvegarde rapide puis reinitialise
     }
 }
 
-void boiteaoutils_chargerimages(t_boite_a_outils* boiteaoutils)
+void boiteaoutils_images(t_boite_a_outils* boiteaoutils)
 {
-    int i,j,nb=0;
+    int i,j,nombre=0;
     char img_off[TAILLE_CHAINE];
     char img_on[TAILLE_CHAINE];
-    //Pour chaque case de la boite ‡ outil, on va charger l'image correspondante
-    //NB:on effectue cette action 1 fois, en dÈbut de programme, afin de ne pas toujours charger les images
+    //Pour chaque case de la boite √† outil, on va charger l'image correspondante
+    //NB:on effectue cette action 1 fois, en d√©but de programme, afin de ne pas toujours charger les images au risque de bug
     for(i=0;i<NB_BOUTONS_H;i++)
     {
         for(j=0;j<NB_BOUTONS_W;j++)
         {
-            sprintf(img_off,"fichiers/images/boite_a_outils/outil_off%d.bmp",nb);
-            sprintf(img_on,"fichiers/images/boite_a_outils/outil_on%d.bmp",nb);
+            sprintf(img_off,"fichiers/images/boite_a_outils/outil_off%d.bmp",nombre);//permets de lire plusieurs image d'un fichier
+            sprintf(img_on,"fichiers/images/boite_a_outils/outil_on%d.bmp",nombre);
             boiteaoutils->img_bouton_off[i][j]=chargerImage(img_off);
             boiteaoutils->img_bouton_on[i][j]=chargerImage(img_on);
-            nb++;
+            nombre++;
         }
     }
 }
@@ -66,7 +69,7 @@ void boiteaoutils_afficher(t_boite_a_outils* boiteaoutils)
 
     x = boiteaoutils->x;
     y = boiteaoutils->y;
-    //crÈer le rectangle de la boite ‡ outil
+    //cr√©er le rectangle de la boite √† outil
     rectfill(page, x, y, x+NB_BOUTONS_W*(LARGEUR_CASE+TAILLE_BORDS), y+NB_BOUTONS_H*(LARGEUR_CASE+TAILLE_BORDS), COUL_FOND);
     rect(page, x, y, x+NB_BOUTONS_W*(LARGEUR_CASE+TAILLE_BORDS), y+NB_BOUTONS_H*(LARGEUR_CASE+TAILLE_BORDS), COUL_BORD);
 
@@ -99,11 +102,11 @@ void boiteaoutils_gerer(t_boite_a_outils* boiteaoutils)
     boiteaoutils_reinitialiser_boutons_uniques(boiteaoutils);
 
     if((mouse_x>boiteaoutils->x)&&(mouse_x<boiteaoutils->x+NB_BOUTONS_W*(LARGEUR_CASE+TAILLE_BORDS))&&(mouse_y>boiteaoutils->y)&&(mouse_y<boiteaoutils->y+NB_BOUTONS_H*(LARGEUR_CASE+TAILLE_BORDS)))
-    {//On rÈcupËre les coordonnÈes de la souris et on en profite pour changer de rÈfÈrentiel
+    {//On r√©cup√®re les coordonn√©es de la souris et on en profite pour changer de r√©f√©rentiel
         int xc = (mouse_x-boiteaoutils->x)/(LARGEUR_CASE+TAILLE_BORDS);
         int yc = (mouse_y-boiteaoutils->y)/(LARGEUR_CASE+TAILLE_BORDS);
 
-        //on donne ‡ la boÓte ‡ outil la valeur de l'action sur laquelle ‡ cliquÈ l'utilisateur afin de dÈfinir
+        //on donne √† la bo√Æte √† outil la valeur de l'action sur laquelle √† cliqu√© l'utilisateur afin de d√©finir
         //son comportement par rapport au programme
         if ( bouton=='g' && xc>=0 && xc<NB_BOUTONS_W && yc>=0 && yc<NB_BOUTONS_H )
         {
@@ -112,12 +115,12 @@ void boiteaoutils_gerer(t_boite_a_outils* boiteaoutils)
     }
     if(mouse_b&2)
     {
-        boiteaoutils->bouton_choisi = -1; // Si clic-droit alors on rÈinitialise le bouton choisi
+        boiteaoutils->bouton_choisi = -1; // Si clic-droit alors on r√©initialise le bouton choisi
     }
 }
 
 void boiteaoutils_liberer(t_boite_a_outils* boiteaoutils)
-{//LibÈration mÈmoire de la boite ‡ outil
+{//Lib√©ration m√©moire de la boite √† outil
     int i,j;
     for(i=0;i<NB_BOUTONS_H;i++)
     {
