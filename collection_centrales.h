@@ -10,8 +10,8 @@
 
 typedef struct collection_centrale
 {
-    t_centrale** centrale;
-    int taille_actuelle;
+    t_centrale** centrale;//Comme pour les caserne permet de faire un tableau de centrale manipulatble
+    int taille;
     int taille_max;
 }t_collection_centrale;
 
