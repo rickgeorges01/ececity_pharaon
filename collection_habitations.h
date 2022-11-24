@@ -10,7 +10,7 @@
 typedef struct collection_habitation
 {
     t_habitation** habitation;
-    int taille_actuelle;
+    int taille;
     int taille_max;
 }t_collection_habitation;
 
