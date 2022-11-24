@@ -1,14 +1,16 @@
 #include "bfs.h"
 
+
 int* recherchepluscourtchemin(t_bfs* bfs,t_case*** kase)
 {
     t_file* file;
     t_case* temp;
     int marque[NB_CASES_LIG][NB_CASES_COL];
     int ligne,colonne,compteur;
-    int* longueurs;
+    int* longueurs; //On met un pointeurs pour pouvoir le changer mÃªme dans d'autre ssp
 
     longueurs=malloc(bfs->ordre*sizeof(int));
+
     for(compteur=0;compteur<bfs->ordre;compteur++)
     {
         longueurs[compteur]=0;
@@ -23,11 +25,11 @@ int* recherchepluscourtchemin(t_bfs* bfs,t_case*** kase)
         }
     }
 
-    if(kase[bfs->case_de_referenceY][bfs->case_de_referenceX]->type==CHATEAU)
+    if(kase[bfs->Pos_Y][bfs->Pos_X]->type==CHATEAU)
     {
-        for(ligne=bfs->case_de_referenceY;ligne<bfs->case_de_referenceY+CHATEAU_H;ligne++)
+        for(ligne=bfs->Pos_Y;ligne<bfs->Pos_Y+CHATEAU_H;ligne++)
         {
-            for(colonne=bfs->case_de_referenceX;colonne<bfs->case_de_referenceX+CHATEAU_W;colonne++)
+            for(colonne=bfs->Pos_X;colonne<bfs->Pos_X+CHATEAU_W;colonne++)
             {
                 tester_voisins(kase,ligne,colonne,longueurs,marque,file);
 
@@ -35,11 +37,11 @@ int* recherchepluscourtchemin(t_bfs* bfs,t_case*** kase)
         }
     }
 
-    if(kase[bfs->case_de_referenceY][bfs->case_de_referenceX]->type==CASERNE)
+    if(kase[bfs->Pos_Y][bfs->Pos_X]->type==CASERNE)
     {
-        for(ligne=bfs->case_de_referenceY;ligne<bfs->case_de_referenceY+CASERNE_H;ligne++)
+        for(ligne=bfs->Pos_Y;ligne<bfs->Pos_Y+CASERNE_H;ligne++)
         {
-            for(colonne=bfs->case_de_referenceX;colonne<bfs->case_de_referenceX+CASERNE_W;colonne++)
+            for(colonne=bfs->Pos_X;colonne<bfs->Pos_X+CASERNE_W;colonne++)
             {
                 tester_voisins(kase,ligne,colonne,longueurs,marque,file);
 
@@ -47,17 +49,18 @@ int* recherchepluscourtchemin(t_bfs* bfs,t_case*** kase)
         }
     }
 
-    if(kase[bfs->case_de_referenceY][bfs->case_de_referenceX]->type==CENTRALE)
+    if(kase[bfs->Pos_Y][bfs->Pos_X]->type==CENTRALE)
     {
-        for(ligne=bfs->case_de_referenceY;ligne<bfs->case_de_referenceY+CENTRALE_H;ligne++)
+        for(ligne=bfs->Pos_Y;ligne<bfs->Pos_Y+CENTRALE_H;ligne++)
         {
-            for(colonne=bfs->case_de_referenceX;colonne<bfs->case_de_referenceX+CENTRALE_W;colonne++)
+            for(colonne=bfs->Pos_X;colonne<bfs->Pos_X+CENTRALE_W;colonne++)
             {
                 tester_voisins(kase,ligne,colonne,longueurs,marque,file);
 
             }
         }
     }
+
     while(!file_vide(file))
     {
         temp=file_defiler(file);
@@ -65,9 +68,9 @@ int* recherchepluscourtchemin(t_bfs* bfs,t_case*** kase)
         colonne=((t_route*)temp->elem)->case_de_referenceX;
         tester_voisins(kase,ligne,colonne,longueurs,marque,file);
     }
-    free(file); // free et non pas file_detruire car il ne faut pas détruire les éléments de la file, qui sont directement
-    // des éléments (des cases) de notre terrain !
-    return longueurs;
+    free(file); // free et non pas file_detruire car il ne faut pas dÃ©truire les Ã©lÃ©ments de la file, qui sont directement
+    // des Ã©lÃ©ments (des cases) de notre terrain !
+    return longueurs;//Longueur chemin le plus court
 }
 
 void tester_voisins(t_case*** kase,int ligne,int colonne,int* longueurs,int marque[NB_CASES_LIG][NB_CASES_COL],t_file* file)
