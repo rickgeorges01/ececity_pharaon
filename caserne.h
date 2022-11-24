@@ -11,12 +11,11 @@
 
 typedef struct caserne
 {
-    int case_de_referenceX;
-    int case_de_referenceY;
-    int temps_de_rechargement; // permettra de savoir si les pompiers sont disponibles
-    int occupe; // permettra de savoir si les pompiers sont disponibles
+    int pos_X;
+    int pos_Y;
+    int temps_de_rechargement; // permettra de savoir si les pompiers sont disponibles (apres un certain temps)
+    int Travaille; // permettra de savoir si les pompiers sont travaille ou pas 
 } t_caserne;
-
 
 t_caserne* caserne_creer();
 
