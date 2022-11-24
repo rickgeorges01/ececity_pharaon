@@ -11,8 +11,8 @@
 
 typedef struct collection_casernes
 {
-    t_caserne** caserne;
-    int taille_actuelle;
+    t_caserne** caserne; //Permettra de faire un tableau de caserne manipulable
+    int taille;
     int taille_max;
 }t_collection_casernes;
 
