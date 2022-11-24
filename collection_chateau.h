@@ -9,8 +9,8 @@
 
 typedef struct collection_chateau
 {
-    t_chateau** chateau;
-    int taille_actuelle;
+    t_chateau** chateau;//Comme pour les caserne permet de faire un tableau de chateau d'eau manipulatble
+    int taille;
     int taille_max;
 }t_collection_chateau;
 
