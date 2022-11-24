@@ -12,9 +12,9 @@
 
 typedef struct bfs
 {
-    int ordre;
-    int case_de_referenceX;
-    int case_de_referenceY;
+    int ordre;//Taille du graphe (donc l'ordre du bfs
+    int Pos_X;
+    int Pos_Y;
 
 }t_bfs;
 
