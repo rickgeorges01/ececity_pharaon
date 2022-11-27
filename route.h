@@ -11,8 +11,8 @@
 typedef struct route
 {
     int type;
-    int case_de_referenceX;
-    int case_de_referenceY;
+    int Pos_X;
+    int Pos_Y;
 }t_route;
 
 t_route* route_creer();
