@@ -15,6 +15,8 @@ typedef struct centrale
     t_capacite capacite;
     int Pos_X;
     int Pos_Y;
+    int heigth;
+    int width;
     t_id id_centrale;
 }t_centrale;
 
