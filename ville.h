@@ -28,12 +28,14 @@ typedef struct ville
 
     t_date* temps_de_jeu;
     int argent;
+
     int nb_habitants;
     t_capacite qte_eau;
     t_capacite qte_elec;
+
     clock_t timer;
     int pause;
-    int niveau_visualisation;
+    int niveau; ///Permet de savoir le niveau actuelle
     int mode;
 
     t_bfs data_bfs;
