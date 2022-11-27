@@ -12,8 +12,10 @@
 typedef struct chateau
 {
     t_capacite capacite;
-    int case_de_referenceX;
-    int case_de_referenceY;
+    int Pos_X;
+    int Pos_Y;
+    int heigth;
+    int width;
     t_id id_chateau;
 }t_chateau;
 
