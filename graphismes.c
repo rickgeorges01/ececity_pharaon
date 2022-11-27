@@ -5,19 +5,7 @@
 #define POSY 348
 #define BARRE_W 2
 
-BITMAP* selectionaleatoirecouleurbarrechargement();
 void avancerchargement(BITMAP* barrechargement,int barres_a_afficher,int* barres_deja_affichees);
-
-BITMAP* selectionaleatoirecouleurbarrechargement()
-{
-    int x;
-    BITMAP* nouv;
-    char ch[TAILLE_CHAINE];
-    x= rand()%6;
-    sprintf(ch,"fichiers/images/barrechargement%d.bmp",x);
-    nouv= chargerImage(ch);
-    return nouv;
-}
 
 void avancerchargement(BITMAP* barrechargement,int barres_a_afficher,int* barres_deja_affichees)
 {
@@ -40,7 +28,7 @@ t_graphismes* graphismes_charger()
     nouv = (t_graphismes*)malloc(1*sizeof(t_graphismes));
 
     BITMAP* fondchargement=chargerImage("fichiers/images/fondchargement.bmp");
-    BITMAP* barrechargement= selectionaleatoirecouleurbarrechargement();
+    BITMAP* barrechargement= chargerImage("fichiers/images/barrechargement5.bmp");
 
     blit(fondchargement,page,0,0,0,0,SCREEN_W,SCREEN_H);
 
