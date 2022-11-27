@@ -1,12 +1,12 @@
 #include "collection_habitations.h"
 
-t_collection_habitation* collection_habitation_creer()
+t_collection_habitation* collection_habitation_creer() // création
 {
     t_collection_habitation* nouv;
     nouv=malloc(sizeof(t_collection_habitation));
     nouv->taille=0;
     nouv->taille_max=TAILLE_INITIALE_COLLECTION;
-    nouv->habitation=malloc(nouv->taille_max*sizeof(t_habitation*));
+    nouv->habitation=malloc(nouv->taille_max*sizeof(t_habitation*)); // Liste des habitations
     return nouv;
 }
 
@@ -22,12 +22,13 @@ void collection_habitation_trier(t_collection_habitation* collection_habitation)
 
 void collection_habitation_ajouter_habitation(t_collection_habitation* collection_habitation,t_habitation* new_habitation)
 {
-    if(collection_habitation->taille==collection_habitation->taille_max)
+    // Réallocation si la taille maximale est ateinte
+    if(collection_habitation->taille==collection_habitation->taille_max) // Si la taille maximale est atteinte
     {
-        collection_habitation_reallouer(collection_habitation);
+        collection_habitation_reallouer(collection_habitation); // Augmenter la taille en faisant une suppression , réallocation et recopie
     }
-    collection_habitation->habitation[collection_habitation->taille]=new_habitation;
-    collection_habitation->taille++;
+    collection_habitation->habitation[collection_habitation->taille]=new_habitation; // Aujouter à la derniére place la nouvelle habitation
+    collection_habitation->taille++; //mise à jour de la taille
 }
 
 void collection_habitation_liberer(t_collection_habitation* collection_habitation)
@@ -54,8 +55,8 @@ void collection_habitation_actualiser_timer(t_collection_habitation* collection_
 
 void collection_habitation_reallouer(t_collection_habitation* collection_habitation)
 {
-    collection_habitation->taille_max=3*collection_habitation->taille_max/2;
-    collection_habitation->habitation=realloc(collection_habitation->habitation,collection_habitation->taille_max*sizeof(t_habitation*));
+    collection_habitation->taille_max=3*collection_habitation->taille_max/2; // augmente la taille d'un facteur 3/2
+    collection_habitation->habitation=realloc(collection_habitation->habitation,collection_habitation->taille_max*sizeof(t_habitation*)); //réallocaton
 }
 
 void collection_habitation_afficher(t_collection_habitation* collection_habitation,int niveau)
