@@ -5,14 +5,30 @@ t_chateau* chateau_creer()
     t_chateau* nouv;
     nouv=malloc(sizeof(t_chateau));
 
-    ///Mettre information dans un fichier texte
-    nouv->capacite.capacite_disponible = CAPACITE_CHATEAU;
-    nouv->capacite.capacite_max = CAPACITE_CHATEAU;
+    FILE * pf = fopen("Info_CT.txt","r");
+    if(!pf)
+    {
+        printf("erreur fichier, sortie");
+        exit(0);
+    }
+
+    ///Mettre infortmation dans un fichier texte
+
+    fscanf(pf, "%d", &nouv->capacite.capacite_disponible);
+
+    //nouv->capacite.capacite_disponible = CAPACITE_CENTRALE;
+    //nouv->capacite.capacite_max = CAPACITE_CENTRALE;
+    nouv->capacite.capacite_max = nouv->capacite.capacite_disponible ;
+
+    fscanf(pf, "%d", &nouv->heigth);
+    fscanf(pf, "%d", &nouv->width);
+
     nouv->Pos_X = 0;
     nouv->Pos_Y = 0;
+
     nouv->id_chateau.caseX = -1;
     nouv->id_chateau.caseY = -1;
-
+    free(pf);
     return nouv;
 }
 
