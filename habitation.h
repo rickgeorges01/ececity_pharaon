@@ -12,8 +12,10 @@
 typedef struct habitation
 {
     int stade;
-    int case_de_referenceX;
-    int case_de_referenceY;
+    int Pos_X;
+    int Pos_Y;
+    int heigth;
+    int width;
     float chrono;
     int feu;
     int electricite;
