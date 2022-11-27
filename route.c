@@ -1,12 +1,12 @@
 #include "route.h"
-
 t_route* route_creer()
 {
     t_route* nouv;
     nouv=malloc(sizeof(t_route));
 
-    nouv->case_de_referenceX = 0;
-    nouv->case_de_referenceY = 0;
+    nouv->Pos_X = 0;
+    nouv->Pos_Y = 0;
+
     nouv->type = TYPE_ROUTE_HORIZONTALE;
 
     return nouv;
@@ -20,8 +20,8 @@ void route_liberer(t_route* route)
 void route_actualiser(t_route* route,t_case*** kase)
 {
     int colonne,ligne;
-    colonne=route->case_de_referenceX;
-    ligne=route->case_de_referenceY;
+    colonne=route->Pos_X;
+    ligne=route->Pos_Y;
     route->type=TYPE_ROUTE_HORIZONTALE;
     if(ligne>0)
     {
@@ -81,8 +81,8 @@ void route_actualiser_voisins(t_route* route,t_case*** kase)
 {
     int ligne,colonne;
 
-    ligne=route->case_de_referenceY;
-    colonne=route->case_de_referenceX;
+    ligne=route->Pos_Y;
+    colonne=route->Pos_X;
 
     if(colonne>0)
     {
@@ -137,8 +137,8 @@ int route_depassement_matrice(int colonne,int ligne)
 
 void route_placer(t_route* route,int colonne,int ligne,t_case*** kase)
 {
-    route->case_de_referenceX=colonne;
-    route->case_de_referenceY=ligne;
+    route->Pos_X=colonne;
+    route->Pos_Y=ligne;
 
     route_actualiser(route,kase);
 
@@ -148,5 +148,6 @@ void route_placer(t_route* route,int colonne,int ligne,t_case*** kase)
 
 void route_afficher(t_route* route,int niveau)
 {
-    draw_sprite(graphs->buffer_ville,graphs->route[niveau][route->type],1+TAILLE_CASE*route->case_de_referenceX,1+TAILLE_CASE*route->case_de_referenceY);
+    draw_sprite(graphs->buffer_ville,graphs->route[niveau][route->type],1+TAILLE_CASE*route->Pos_X,1+TAILLE_CASE*route->Pos_Y);
 }
+
