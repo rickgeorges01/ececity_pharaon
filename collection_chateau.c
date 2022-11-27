@@ -1,23 +1,25 @@
 #include "collection_chateau.h"
 
-t_collection_chateau* collection_chateau_creer()
+t_collection_chateau* collection_chateau_creer() // création
 {
     t_collection_chateau* nouv;
     nouv=malloc(sizeof(t_collection_chateau));
     nouv->taille=0;
     nouv->taille_max=TAILLE_INITIALE_COLLECTION;
-    nouv->chateau=malloc(nouv->taille_max*sizeof(t_chateau*));
+    nouv->chateau=malloc(nouv->taille_max*sizeof(t_chateau*)); // Liste des chateaux
     return nouv;
 }
 
 void collection_chateau_ajouter_chateau(t_collection_chateau* collection_chateau,t_chateau* new_chateau)
 {
-    if(collection_chateau->taille == collection_chateau->taille_max)
+    // Réallocation si la taille maximale est ateinte
+
+    if(collection_chateau->taille == collection_chateau->taille_max) // Si la taille maximale est atteinte
     {
-        collection_chateau_reallouer(collection_chateau);
+        collection_chateau_reallouer(collection_chateau); // Augmenter la taille en faisant une suppression , réallocation et recopie
     }
-    collection_chateau->chateau[collection_chateau->taille]=new_chateau;
-    collection_chateau->taille++;
+    collection_chateau->chateau[collection_chateau->taille]=new_chateau; // Aujouter à la derniére place le nouveau chateau
+    collection_chateau->taille++; //mise à jour de la taille
 }
 
 void collection_chateau_liberer(t_collection_chateau* collection_chateau)
@@ -34,8 +36,8 @@ void collection_chateau_liberer(t_collection_chateau* collection_chateau)
 
 void collection_chateau_reallouer(t_collection_chateau* collection_chateau)
 {
-    collection_chateau->taille_max=3*collection_chateau->taille_max/2;
-    collection_chateau->chateau=realloc(collection_chateau->chateau,collection_chateau->taille_max*sizeof(t_chateau*));
+    collection_chateau->taille_max=3*collection_chateau->taille_max/2;  // augmente la taille d'un facteur 3/2
+    collection_chateau->chateau=realloc(collection_chateau->chateau,collection_chateau->taille_max*sizeof(t_chateau*)); //réallocaton
 }
 
 void collection_chateau_afficher(t_collection_chateau* collection_chateau,int niveau)
@@ -184,6 +186,7 @@ void collection_chateau_debut_tour(t_collection_chateau* collection_chateau)
 }
 
 int* collection_chateau_tableau_capacite(t_collection_chateau* collection_chateau)
+//tableau des capacités des chateaux
 {
     int* capacite_chateau;
     int i;
