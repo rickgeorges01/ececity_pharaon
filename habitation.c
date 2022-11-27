@@ -14,11 +14,13 @@ t_habitation* habitation_creer()
         nouv->chateaux_fournisseurs[i].qte_eau_distribuee = 0;
     }
 
+    nouv->width = nouv->heigth = 3;
+
     nouv->chrono = 0.00;
     nouv->feu= PAS_EN_FEU;
     nouv->stade= STADE_TERRAIN_VAGUE;
-    nouv->case_de_referenceX = 0;
-    nouv->case_de_referenceY = 0;
+    nouv->Pos_X = 0;
+    nouv->Pos_Y = 0;
     nouv->electricite = 0;
     nouv->eau = 0;
     nouv->indice = 0;
@@ -43,7 +45,6 @@ int habitation_place_libre(int col,int lig,t_case*** kase)
         {
             for(j=col; j<col+HABITATION_W; j++)
             {
-                ///PEUT MIEUX FAIRE (RETURN LIBRE IF LIBRE ==0)
                 if(kase[i][j]->type!=VIDE)
                 {
                     libre=0;
@@ -51,7 +52,36 @@ int habitation_place_libre(int col,int lig,t_case*** kase)
             }
         }
     }
-    else libre=0;
+    else ///en dehors de la matrice
+    {libre=0;}
+    return libre;
+}
+
+//if(kase[i+2][j]->type != ROUTE || kase[i+2][j+1]->type != ROUTE || kase[i][j+2]->type != ROUTE || kase[i+1][j+2]->type != ROUTE || kase[i-1][j]->type != ROUTE || kase[i-1][j+1]->type != ROUTE || kase[i][j-1]->type != ROUTE || kase[i+1][j-1]->type != ROUTE)
+
+int habitation_routeadj(t_case*** kase, int colonne, int ligne)
+{
+    int i = ligne ;
+    int j= colonne ;
+    int libre = 0 ;
+    if(!habitation_depassement_matrice(colonne,ligne))
+    {
+    if(habitation_place_libre(colonne,ligne,kase))
+        {
+        for(i=ligne; i<ligne+HABITATION_H; i++)
+            {
+            for(j=colonne; j<colonne+HABITATION_W; j++)
+                {
+                if(kase[i+3][j]->type == ROUTE || kase[i+3][j+1]->type == ROUTE || kase[i+3][j+2]->type == ROUTE || kase[i][j+3]->type == ROUTE || kase[i+1][j+3]->type == ROUTE || kase[i+2][j+3]->type == ROUTE || kase[i-1][j]->type == ROUTE || kase[i-1][j+1]->type == ROUTE || kase[i-1][j+2]->type == ROUTE || kase[i][j-1]->type == ROUTE || kase[i+1][j-1]->type == ROUTE || kase[i+2][j-1]->type == ROUTE)
+                    {
+                    libre = 1;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {libre=0;}
     return libre;
 }
 
@@ -68,8 +98,8 @@ int habitation_depassement_matrice(int colonne,int ligne)
 void habitation_placer(t_habitation* h,int col,int lig,t_case*** kase)
 {
     int i,j;
-    h->case_de_referenceX=col;
-    h->case_de_referenceY=lig;
+    h->Pos_X=col;
+    h->Pos_Y=lig;
     for(i=lig; i<lig+HABITATION_H; i++)
     {
         for(j=col; j<col+HABITATION_W; j++)
@@ -111,15 +141,15 @@ int habitation_nbhabitants(t_habitation* habitation)
     return habitants;
 }
 
-int habitation_comparer(const void* a, const void* b) // il manque un degré de const, pourquoi?
+int habitation_comparer(const void* a, const void* b) // il manque un degrÃ© de const, pourquoi?
 {
-    const t_habitation* const* h1 = a; // en théorie ici il manque un degré de "const", comment savoir que c'était un pointeur constant sur pointeur (non constant) d'habitation constante qu'on voulait??
-    const t_habitation* const* h2 = b;
-    if((*h1)->stade < (*h2)->stade)
+    const t_habitation* h1 = a; // en thÃ©orie ici il manque un degrÃ© de "const", comment savoir que c'Ã©tait un pointeur constant sur pointeur (non constant) d'habitation constante qu'on voulait??
+    const t_habitation* h2 = b;
+    if(h1->stade < h2->stade)
     {
         return 1;
     }
-    else if((*h1)->stade > (*h2)->stade)
+    else if(h1->stade > h2->stade)
     {
         return -1;
     }
@@ -129,12 +159,12 @@ int habitation_comparer(const void* a, const void* b) // il manque un degré de c
 
 void habitation_charger(t_habitation* hab, FILE* fp)
 {
-    fscanf(fp,"%d %d %d %f %d",&hab->case_de_referenceX,&hab->case_de_referenceY,&hab->stade,&hab->chrono,&hab->feu);
+    fscanf(fp,"%d %d %d %f %d",&hab->Pos_X,&hab->Pos_Y,&hab->stade,&hab->chrono,&hab->feu);
 }
 
 void habitation_sauvegarder(t_habitation* hab, FILE* fp)
 {
-    fprintf(fp,"%d %d %d %f %d\n",hab->case_de_referenceX, hab->case_de_referenceY,hab->stade, hab->chrono, hab->feu);
+    fprintf(fp,"%d %d %d %f %d\n",hab->Pos_X, hab->Pos_Y,hab->stade, hab->chrono, hab->feu);
 }
 
 void habitation_afficher(t_habitation* hab,int niveau)
@@ -155,44 +185,44 @@ void habitation_afficher(t_habitation* hab,int niveau)
     {
     case 0:if(((niveau==NIVEAU_EAU)&&(!hab->eau))||((niveau==NIVEAU_ELEC)&&(!hab->electricite)))
         {
-            draw_lit_sprite(graphs->buffer_ville,graphs->ruine,1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY,makecol(255,0,0));
+            draw_lit_sprite(graphs->buffer_ville,graphs->ruine,1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y,makecol(255,0,0));
         }
-        else draw_sprite(graphs->buffer_ville,graphs->ruine,1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY);
+        else draw_sprite(graphs->buffer_ville,graphs->ruine,1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y);
         break;
     case 1:if(((niveau==NIVEAU_EAU)&&(!hab->eau))||((niveau==NIVEAU_ELEC)&&(!hab->electricite)))
         {
-            draw_lit_sprite(graphs->buffer_ville,graphs->terrain_vague,1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY,makecol(255,0,0));
+            draw_lit_sprite(graphs->buffer_ville,graphs->terrain_vague,1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y,makecol(255,0,0));
         }
-        else draw_sprite(graphs->buffer_ville,graphs->terrain_vague,1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY);
+        else draw_sprite(graphs->buffer_ville,graphs->terrain_vague,1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y);
         break;
     case 2:if(((niveau==NIVEAU_EAU)&&(!hab->eau))||((niveau==NIVEAU_ELEC)&&(!hab->electricite)))
         {
-            draw_lit_sprite(graphs->buffer_ville,graphs->cabane[img_utilisee],1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY,makecol(255,0,0));
+            draw_lit_sprite(graphs->buffer_ville,graphs->cabane[img_utilisee],1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y,makecol(255,0,0));
         }
-        else draw_sprite(graphs->buffer_ville,graphs->cabane[img_utilisee],1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY);
+        else draw_sprite(graphs->buffer_ville,graphs->cabane[img_utilisee],1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y);
         break;
     case 3:if(((niveau==NIVEAU_EAU)&&(!hab->eau))||((niveau==NIVEAU_ELEC)&&(!hab->electricite)))
         {
-            draw_lit_sprite(graphs->buffer_ville,graphs->maison[img_utilisee],1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY,makecol(255,0,0));
+            draw_lit_sprite(graphs->buffer_ville,graphs->maison[img_utilisee],1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y,makecol(255,0,0));
         }
-        else draw_sprite(graphs->buffer_ville,graphs->maison[img_utilisee],1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY);
+        else draw_sprite(graphs->buffer_ville,graphs->maison[img_utilisee],1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y);
         break;
     case 4:if(((niveau==NIVEAU_EAU)&&(!hab->eau))||((niveau==NIVEAU_ELEC)&&(!hab->electricite)))
         {
-            draw_lit_sprite(graphs->buffer_ville,graphs->immeuble[img_utilisee],1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY,makecol(255,0,0));
+            draw_lit_sprite(graphs->buffer_ville,graphs->immeuble[img_utilisee],1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y,makecol(255,0,0));
         }
-        else draw_sprite(graphs->buffer_ville,graphs->immeuble[img_utilisee],1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY);
+        else draw_sprite(graphs->buffer_ville,graphs->immeuble[img_utilisee],1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y);
         break;
     case 5:if(((niveau==NIVEAU_EAU)&&(!hab->eau))||((niveau==NIVEAU_ELEC)&&(!hab->electricite)))
         {
-            draw_lit_sprite(graphs->buffer_ville,graphs->gratte_ciel[img_utilisee],1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY,makecol(255,0,0));
+            draw_lit_sprite(graphs->buffer_ville,graphs->gratte_ciel[img_utilisee],1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y,makecol(255,0,0));
         }
-        else draw_sprite(graphs->buffer_ville,graphs->gratte_ciel[img_utilisee],1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY);
+        else draw_sprite(graphs->buffer_ville,graphs->gratte_ciel[img_utilisee],1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y);
         break;
     }
     if((hab->feu)&&(hab->protegee))
         {
-            draw_sprite(graphs->buffer_ville,graphs->pompier,1+TAILLE_CASE*hab->case_de_referenceX,1+TAILLE_CASE*hab->case_de_referenceY);
+            draw_sprite(graphs->buffer_ville,graphs->pompier,1+TAILLE_CASE*hab->Pos_X,1+TAILLE_CASE*hab->Pos_Y);
         }
 }
 
@@ -218,9 +248,9 @@ void habitation_evoluer(t_habitation* habitation,int mode,int* argent,int nb_cha
             habitation->chrono = 0;
         }
     }
-    else if( habitation->chrono >= DUREE_CYCLE) // si 15 secondes se sont écoulées
+    else if( habitation->chrono >= DUREE_CYCLE) // si 15 secondes se sont Ã©coulÃ©es
     {
-        habitation->chrono = 0; // on remet à 0 la durée
+        habitation->chrono = 0; // on remet Ã  0 la durÃ©e
         *argent = *argent + habitation_recolter_impots(habitation);
 
         switch(mode)
@@ -374,3 +404,4 @@ void habitation_debut_tour(t_habitation* hab)
         hab->chateaux_fournisseurs[i].id_fournisseur.caseY= -1;
     }
 }
+
