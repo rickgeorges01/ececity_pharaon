@@ -27,10 +27,6 @@ void sous_menu_liberer(t_graphsousMenu* g)
         destroy_bitmap(g->img_boutons_off[i]);
         destroy_bitmap(g->img_boutons_on[i]);
     }
-    for(i=0;i<NB_IMG_OISEAU;i++)
-    {
-        destroy_bitmap(g->oiseau[i]);
-    }
 }
 
 void sous_menu_charger(t_graphsousMenu* g)
@@ -53,12 +49,6 @@ void sous_menu_charger(t_graphsousMenu* g)
     g->img_boutons_on[SOUS_MENU_COMMUNISTE]  = chargerImage("fichiers/images/menu/sousmenu/communiste1.bmp");
     g->img_boutons_off[SOUS_MENU_CAPITALISTE] = chargerImage("fichiers/images/menu/sousmenu/capitaliste0.bmp");
     g->img_boutons_on[SOUS_MENU_CAPITALISTE]  = chargerImage("fichiers/images/menu/sousmenu/capitaliste1.bmp");
-
-    for(i=0;i<NB_IMG_OISEAU;i++)
-    {
-        sprintf(tmp,"fichiers/images/menu/sousmenu/oiseau%d.bmp",i);
-        g->oiseau[i] = chargerImage(tmp);
-    }
 
     for(i=0; i<NB_BOUTONS_SOUS_MENU; i++)
     {
@@ -136,13 +126,13 @@ void menu_afficher(t_graphMenu graph)
         }
 
         show_mouse(NULL);
-        // Mettre à jour les variables touche (clavier) et bouton (souris)
+        // Mettre Ã  jour les variables touche (clavier) et bouton (souris)
         rafraichir_clavier_souris();
 
         mx=mouse_x;
         my=mouse_y;
 
-        // Effacer complètement le buffer (tout disparaît)
+        // Effacer complÃ¨tement le buffer (tout disparaÃ®t)
         effacer_page();
 
         //AFFICHAGE
@@ -242,13 +232,13 @@ int menu_selection_mode(t_graphMenu graph)
     while (!quitter)
     {
         cpt++;
-        // Mettre à jour les variables touche (clavier) et bouton (souris)
+        // Mettre Ã  jour les variables touche (clavier) et bouton (souris)
         rafraichir_clavier_souris();
 
         mx=mouse_x;
         my=mouse_y;
 
-        // Effacer complètement le buffer (tout disparaît)
+        // Effacer complÃ¨tement le buffer (tout disparaÃ®t)
         effacer_page();
 
         //AFFICHAGE
@@ -267,12 +257,9 @@ int menu_selection_mode(t_graphMenu graph)
         else
             draw_sprite(page, graph.img_boutons_off[MENU_BOUTON_RETOUR], graph.boutons_x[MENU_BOUTON_RETOUR],graph.boutons_y[MENU_BOUTON_RETOUR]);
 
-        draw_sprite(page,graph.graphsdusousmenu.oiseau[index],posx,120);
         posx+=5;
         if(cpt% 4== 0)
             index++;
-        if(index>=NB_IMG_OISEAU)
-            index=0;
 
         draw_sprite(page, graph.cursor, mx, my);
         afficher_page();
