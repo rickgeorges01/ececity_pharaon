@@ -20,11 +20,11 @@ void initialiser_allegro(int w, int h)
     COLOR_MAP global_trans_table;
     PALETTE pal;
 
-    allegro_init();
+    allegro_init(); // initialisation de l'environnement
     install_keyboard();
-    set_keyboard_rate(0,0);
+    set_keyboard_rate(0,0);  //  fixe la vitesse de répétition du clavier
     install_mouse();
-    install_sound(DIGI_AUTODETECT,MIDI_AUTODETECT,NULL); //////////// INDISPENSABLE!!
+    install_sound(DIGI_AUTODETECT,MIDI_AUTODETECT,NULL); // INDISPENSABLE
 
     create_trans_table(&global_trans_table, pal, 128, 128, 128, NULL);
 
@@ -42,9 +42,9 @@ void initialiser_allegro(int w, int h)
       else
 	 set_trans_blender(128, 128, 128, 100);
 
-    show_mouse(screen);
+    show_mouse(screen); // Montrer la souris
 
-    page=create_bitmap(TAILLE_FENETRE_W,TAILLE_FENETRE_H);
+    page=create_bitmap(TAILLE_FENETRE_W,TAILLE_FENETRE_H); // création de la fenêtre
 
     page_couleur_fond = PAGE_COULEUR_INIT;
 
@@ -56,7 +56,7 @@ void initialiser_allegro(int w, int h)
 void fermer_allegro()
 {
     if (!page) return;
-    destroy_bitmap(page);
+    destroy_bitmap(page); // libération des cases mémoires
     page=NULL;
     allegro_exit();
 }
