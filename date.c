@@ -1,6 +1,7 @@
 #include "date.h"
 
 t_date* date_allouer()
+// Initialisation
 {
     t_date* nouv = NULL;
     nouv = (t_date*)malloc(1*sizeof(t_date));
