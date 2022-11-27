@@ -27,10 +27,14 @@ void chateau_liberer(t_chateau* c)
 }
 
 int chateau_place_libre(int col,int lig,t_case*** kase)
+/*
+Fonction qui retourne s'il est possible de créer une caserne à un emplacement donné(retourne 1  si libre et 0 sinon
+*/
 {
     int i,j;
     int libre=1;
-    if(!chateau_depassement_matrice(col,lig))
+    // On regarde si on sort de la grille
+    if(!chateau_depassement_matrice(col,lig)) // Si condition vrai (libre) on regarde si pas deja un objet construit en parcourant case par case
     {
         for(i=col;i<col+CHATEAU_W;i++)
         {
@@ -43,11 +47,14 @@ int chateau_place_libre(int col,int lig,t_case*** kase)
             }
         }
     }
-    else libre=0;
+    else libre=0; // Sinon pas libre
     return libre;
 }
 
 int chateau_depassement_matrice(int colonne,int ligne)
+/*
+Fonction qui vérifie si on dépasse la grille(sord du bord)
+*/
 {
     int depasse=1;
     if((colonne>=0)&&(colonne<=NB_CASES_COL-CHATEAU_W)&&(ligne>=0)&&(ligne<=NB_CASES_LIG-CHATEAU_H))
@@ -58,6 +65,9 @@ int chateau_depassement_matrice(int colonne,int ligne)
 }
 
 void chateau_placer(t_chateau* chateau,int col,int lig,t_case*** kase)
+/*
+Fonction qui place une case(si toutes les conditions sont remplis)
+*/
 {
     int i,j;
     chateau->Pos_X=col;
@@ -74,6 +84,7 @@ void chateau_placer(t_chateau* chateau,int col,int lig,t_case*** kase)
 }
 
 void chateau_afficher(t_chateau* chateau,int niveau)
+//Affichage
 {
     if(niveau==NIVEAU_ELEC)
     {
@@ -86,6 +97,9 @@ void chateau_afficher(t_chateau* chateau,int niveau)
 }
 
 int chateau_distribuer(t_chateau* chateau,t_habitation* habitation)
+/*
+Fonction qui sert à distribuer de l'eau à une habitation
+*/
 {
     int eau_distribuee=0,quantitee,i,eau_distrib;
     int index = 0;
