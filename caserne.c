@@ -5,11 +5,15 @@ t_caserne* caserne_creer()
     t_caserne* nouv;
     nouv=malloc(sizeof(t_caserne));
 
-    ///Mettre les informations du fichier texte
+    nouv->heigth = 4;
+    nouv->width = 6;
+
     nouv->temps_de_rechargement=0;
     nouv->Travaille=0;
+
     nouv->pos_X = 0;
     nouv->pos_Y = 0;
+
 
     return nouv;
 }
